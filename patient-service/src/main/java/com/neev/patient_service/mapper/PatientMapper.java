@@ -4,6 +4,9 @@ import com.neev.patient_service.dto.PatientResponse;
 import com.neev.patient_service.model.Patient;
 
 public class PatientMapper {
+    private PatientMapper() {
+    }
+
     public static PatientResponse toDTO(Patient patient) {
         PatientResponse patientResponse = new PatientResponse();
         patientResponse.setId(String.valueOf(patient.getId()));
