@@ -1,6 +1,6 @@
 package com.neev.patient_service.dto;
 
-public class PatientResponse {
+public class PatientResponseDTO {
     private String id;
 
     private String name;
