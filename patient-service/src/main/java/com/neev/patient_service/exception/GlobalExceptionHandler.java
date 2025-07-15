@@ -10,9 +10,10 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    private static final String MESSAGE = "message";
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException exception){
+    public ResponseEntity<Map<String, String>> handleValidationException(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new HashMap<>();
         exception.getBindingResult().getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
 
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(EmailAlreayExistsException.class)
     public ResponseEntity<Map<String, String>> handleEmailAlreadyExistsException(EmailAlreayExistsException exception) {
         Map<String, String> errors = new HashMap<>();
-        errors.put("message", "Email address already exists");
+        errors.put(MESSAGE, "Email address already exists");
 
         return ResponseEntity.badRequest().body(errors);
     }
@@ -30,7 +31,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidDOBException.class)
     public ResponseEntity<Map<String, String>> handleInvalidDOBException(InvalidDOBException exception) {
         Map<String, String> errors = new HashMap<>();
-        errors.put("message", "DOB should be valid");
+        errors.put(MESSAGE, "DOB should be valid");
+
+        return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(PatientNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handlePatientNotFoundException(PatientNotFoundException exception) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put(MESSAGE, "Patient not found");
 
         return ResponseEntity.badRequest().body(errors);
     }
