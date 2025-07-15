@@ -11,6 +11,7 @@ import com.neev.patient_service.repository.PatientRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.UUID;
@@ -33,13 +34,13 @@ public class PatientService {
             throw new EmailAlreayExistsException("A patient with this email (" + patientRequestDTO.getEmail() + ") already exists.");
         }
         Patient patient = PatientMapper.toModel(patientRequestDTO);
+        patient.setRegistrationTime(LocalDateTime.now());
         Patient savedPatient = patientRepository.save(patient);
         return PatientMapper.toDTO(savedPatient);
     }
 
     public PatientResponseDTO updatePatient(UUID id, PatientRequestDTO patientRequestDTO) {
-        Patient patient = patientRepository.findById(id).orElseThrow(() ->
-                new PatientNotFoundException("Patient not found with id " + id));
+        Patient patient = patientRepository.findById(id).orElseThrow(() -> new PatientNotFoundException("Patient not found with id " + id));
         if (patientRepository.existsByEmailAndIdNot(patientRequestDTO.getEmail(), id)) {
             throw new EmailAlreayExistsException("A patient with this email (" + patientRequestDTO.getEmail() + ") already exists.");
         }

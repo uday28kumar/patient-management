@@ -6,7 +6,6 @@ import com.neev.patient_service.exception.InvalidDOBException;
 import com.neev.patient_service.model.Patient;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
 public class PatientMapper {
@@ -33,7 +32,6 @@ public class PatientMapper {
         } catch (DateTimeParseException exception) {
             throw new InvalidDOBException("Invalid dob " + exception.getMessage());
         }
-        patient.setRegistrationTime(LocalDateTime.now());
         return patient;
     }
 }
