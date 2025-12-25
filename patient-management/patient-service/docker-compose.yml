@@ -1,0 +1,31 @@
+services: # Defines containers that should run together
+  postgres: # Service name inside docker network, Other container use this name to connect
+    image: postgres:16 # postgres image, Uses official PostgreSQL image, version 16
+    container_name: patient-postgres # docker container name
+    environment: # Create database, user, and password, It happens only on first start-up
+      POSTGRES_DB: patientdb
+      POSTGRES_USER: patientuser
+      POSTGRES_PASSWORD: patientpass
+    ports: # Exposes PostgreSQL to host machine, Optional in production env
+      - "5432:5432"
+    volumes: # Stores DB data outside container, Data survives container restarts
+      - patient_pgdata:/var/lib/postgresql/data
+    healthcheck: # Checks if Postgres is ready to accept connections. Prevents app from starting too early
+      test: ["CMD-SHELL", "pg_isready -U patientuser -d patientdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  patient-service: # Used by another containers, eg: http://patient-service:8080
+    build: . # Builds Docker image using Dockerfile, . means project root
+    container_name: patient-service # Container name
+    ports: # Exposes Spring Boot REST API to host, Access by http://localhost:8080
+      - "8080:8080"
+    depends_on: # Waits until PostgreSQL is healthy.
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: docker # Forces Spring Boot to use application-docker.yml
+
+volumes:
+  patient_pgdata: # Named volume for PostgreSQL data
