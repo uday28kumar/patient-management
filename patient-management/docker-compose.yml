@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: patientdb
+      POSTGRES_USER: patientuser
+      POSTGRES_PASSWORD: patientpass
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U patientuser"]
+      interval: 10s
+      retries: 5
+
+  patient-service:
+    build:
+      context: .
+      dockerfile: patient-service/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/patientdb
+      SPRING_DATASOURCE_USERNAME: patientuser
+      SPRING_DATASOURCE_PASSWORD: patientpass
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
