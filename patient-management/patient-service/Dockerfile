@@ -9,6 +9,7 @@ COPY pom.xml .
 # 2️⃣ Copy ALL module poms (even placeholders!)
 COPY patient-service/pom.xml patient-service/pom.xml
 COPY billing-service/pom.xml billing-service/pom.xml
+COPY grpc-contract/pom.xml grpc-contract/pom.xml
 
 # 3️⃣ Download dependencies (reactor is now valid)
 RUN mvn -B -pl patient-service -am dependency:go-offline
@@ -16,6 +17,7 @@ RUN mvn -B -pl patient-service -am dependency:go-offline
 # 4️⃣ Copy actual source code
 COPY patient-service patient-service
 COPY billing-service billing-service
+COPY grpc-contract grpc-contract
 
 # 5️⃣ Build only patient-service
 RUN mvn -B -pl patient-service -am clean package -DskipTests

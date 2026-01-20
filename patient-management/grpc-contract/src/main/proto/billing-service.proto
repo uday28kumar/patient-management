@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.neev.billing.grpc";
+option java_outer_classname = "BillingProto";
+
+service BillingService {
+    rpc CreateBilling(BillingRequest) returns (BillingResponse);
+}
+
+message BillingRequest {
+    string id = 1;
+    string name = 2;
+}
+
+message BillingResponse {
+    string status = 1;
+}

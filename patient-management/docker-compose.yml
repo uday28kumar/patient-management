@@ -12,19 +12,35 @@ services:
       interval: 10s
       retries: 5
 
+  billing-service:
+    build:
+      context: .
+      dockerfile: billing-service/Dockerfile
+    container_name: billing-service
+    ports:
+      - "9090:9090"
+    restart: always
+
   patient-service:
     build:
       context: .
       dockerfile: patient-service/Dockerfile
+    container_name: patient-service
     ports:
       - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/patientdb
       SPRING_DATASOURCE_USERNAME: patientuser
       SPRING_DATASOURCE_PASSWORD: patientpass
+      # grpc client configs:
+      BILLING_GRPC_HOST: billing-service
+      BILLING_GRPC_PORT: 9090
+
     depends_on:
       postgres:
         condition: service_healthy
+      billing-service:
+        condition: service_started
 
 volumes:
   postgres_data:

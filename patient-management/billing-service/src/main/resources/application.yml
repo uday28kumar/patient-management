@@ -1,7 +1,39 @@
-grpc:
-  server:
-    port: 9090
-
 spring:
   application:
-    name: BillingServiceApp
+    name: billing-service
+
+  profiles:
+    active: default
+
+server:
+  port: 0   # REST not exposed; gRPC only
+
+# ===============================
+# gRPC SERVER CONFIG
+# ===============================
+grpc:
+  server:
+    port: ${GRPC_SERVER_PORT:9090}
+    enable-reflection: true
+
+# ===============================
+# LOGGING
+# ===============================
+logging:
+  level:
+    root: INFO
+    net.devh.boot.grpc.server: INFO
+    io.grpc: INFO
+    com.company.billing: DEBUG
+
+# ===============================
+# ACTUATOR (Optional but recommended)
+# ===============================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always

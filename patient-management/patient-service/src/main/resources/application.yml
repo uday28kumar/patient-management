@@ -1,14 +1,64 @@
 spring:
+  application:
+    name: patient-service
+
   profiles:
-    default: dev
+    active: default
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/patientdb
+    username: patientuser
+    password: patientpass
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    open-in-view: false
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
 
 server:
   port: 8080
+
+# ===============================
+# gRPC CLIENT CONFIG
+# ===============================
+billing:
+  grpc:
+    host: localhost
+    port: 9090
+    timeout-ms: 3000
+
+grpc:
+  client:
+    billing-service:
+      address: static://${billing.grpc.host}:${billing.grpc.port}
+      negotiationType: PLAINTEXT
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+
+# ===============================
+# LOGGING
+# ===============================
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+    io.grpc: INFO
+    com.company.patient: DEBUG
+
+# ===============================
+# ACTUATOR
+# ===============================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always

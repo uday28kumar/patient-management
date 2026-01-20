@@ -1,21 +1,28 @@
 # -------- Build stage --------
-FROM eclipse-temurin:17-jdk-alpine AS build
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
-WORKDIR /app
+WORKDIR /build
 
 COPY pom.xml .
-RUN mvn dependency:go-offline
+COPY billing-service/pom.xml billing-service/pom.xml
+COPY patient-service/pom.xml patient-service/pom.xml
+COPY grpc-contract/pom.xml grpc-contract/pom.xml
 
-COPY src ./src
-RUN mvn clean package -DskipTests
+RUN mvn -B -pl billing-service -am dependency:go-offline
+
+COPY billing-service billing-service
+COPY patient-service patient-service
+COPY grpc-contract grpc-contract
+
+RUN mvn -B -pl billing-service -am clean package -DskipTests
 
 # -------- Runtime stage --------
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /build/billing-service/target/*.jar app.jar
 
-EXPOSE 8080
+EXPOSE 9090
 
 ENTRYPOINT ["java","-jar","app.jar"]

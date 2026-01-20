@@ -1,13 +1,17 @@
 package org.neev.patientservice.service;
 
+import org.neev.billing.grpc.BillingResponse;
 import org.neev.patientservice.dto.PatientRequestDTO;
 import org.neev.patientservice.dto.PatientResponseDTO;
 import org.neev.patientservice.exception.EmailAlreadyExistsException;
 import org.neev.patientservice.exception.InvalidDOBException;
 import org.neev.patientservice.exception.PatientNotFoundException;
+import org.neev.patientservice.grpc.BillingServiceGrpcClient;
 import org.neev.patientservice.mapper.PatientMapper;
 import org.neev.patientservice.model.Patient;
 import org.neev.patientservice.repository.PatientRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,10 +22,13 @@ import java.util.UUID;
 
 @Service
 public class PatientService {
+    private static final Logger log = LoggerFactory.getLogger(PatientService.class);
     private final PatientRepository patientRepository;
+    private final BillingServiceGrpcClient billingServiceGrpcClient;
 
-    public PatientService(PatientRepository patientRepository) {
+    public PatientService(PatientRepository patientRepository, BillingServiceGrpcClient billingServiceGrpcClient) {
         this.patientRepository = patientRepository;
+        this.billingServiceGrpcClient = billingServiceGrpcClient;
     }
 
     public List<PatientResponseDTO> getPatients() {
@@ -36,6 +43,8 @@ public class PatientService {
         Patient patient = PatientMapper.toModel(patientRequestDTO);
         patient.setRegistrationTime(LocalDateTime.now());
         Patient savedPatient = patientRepository.save(patient);
+        BillingResponse billingResponse = billingServiceGrpcClient.createBilling("fake id", "fake name");
+        log.info("Billing Response = {}", billingResponse);
         return PatientMapper.toDTO(savedPatient);
     }
 

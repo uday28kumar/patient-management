@@ -2,9 +2,9 @@ package org.neev.billingservice.service;
 
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.neev.billingservice.BillingRequest;
-import org.neev.billingservice.BillingResponse;
-import org.neev.billingservice.BillingServiceGrpc;
+import org.neev.billing.grpc.BillingRequest;
+import org.neev.billing.grpc.BillingResponse;
+import org.neev.billing.grpc.BillingServiceGrpc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
