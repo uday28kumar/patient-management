@@ -1,4 +1,4 @@
-package org.neev.patientservice.dto;
+package org.neev.patientservice.model;
 
 public class PatientResponseDTO {
     private String id;

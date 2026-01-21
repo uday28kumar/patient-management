@@ -1,4 +1,4 @@
-package org.neev.patientservice.dto;
+package org.neev.patientservice.model;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

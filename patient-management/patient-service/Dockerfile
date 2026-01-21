@@ -3,13 +3,17 @@ FROM maven:3.9.6-eclipse-temurin-17 AS build
 
 WORKDIR /build
 
-# 1️⃣ Copy parent pom
+# Copy root pom
 COPY pom.xml .
 
-# 2️⃣ Copy ALL module poms (even placeholders!)
-COPY patient-service/pom.xml patient-service/pom.xml
+# Copy service poms
 COPY billing-service/pom.xml billing-service/pom.xml
-COPY grpc-contract/pom.xml grpc-contract/pom.xml
+COPY patient-service/pom.xml patient-service/pom.xml
+
+# Copy contracts aggregator + contracts poms
+COPY contracts/pom.xml contracts/pom.xml
+COPY contracts/grpc-contract/pom.xml contracts/grpc-contract/pom.xml
+COPY contracts/event-contract/pom.xml contracts/event-contract/pom.xml
 
 # 3️⃣ Download dependencies (reactor is now valid)
 RUN mvn -B -pl patient-service -am dependency:go-offline
@@ -17,7 +21,7 @@ RUN mvn -B -pl patient-service -am dependency:go-offline
 # 4️⃣ Copy actual source code
 COPY patient-service patient-service
 COPY billing-service billing-service
-COPY grpc-contract grpc-contract
+COPY contracts contracts
 
 # 5️⃣ Build only patient-service
 RUN mvn -B -pl patient-service -am clean package -DskipTests

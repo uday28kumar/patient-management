@@ -1,7 +1,7 @@
 package org.neev.patientservice.controller;
 
-import org.neev.patientservice.dto.PatientRequestDTO;
-import org.neev.patientservice.dto.PatientResponseDTO;
+import org.neev.patientservice.model.PatientRequestDTO;
+import org.neev.patientservice.model.PatientResponseDTO;
 import org.neev.patientservice.service.PatientService;
 import jakarta.validation.groups.Default;
 import org.springframework.http.ResponseEntity;

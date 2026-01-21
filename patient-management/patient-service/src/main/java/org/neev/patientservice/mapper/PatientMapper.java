@@ -1,7 +1,7 @@
 package org.neev.patientservice.mapper;
 
-import org.neev.patientservice.dto.PatientRequestDTO;
-import org.neev.patientservice.dto.PatientResponseDTO;
+import org.neev.patientservice.model.PatientRequestDTO;
+import org.neev.patientservice.model.PatientResponseDTO;
 import org.neev.patientservice.exception.InvalidDOBException;
 import org.neev.patientservice.model.Patient;
 

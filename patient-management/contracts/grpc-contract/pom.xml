@@ -1,22 +1,28 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.neev</groupId>
         <artifactId>patient-management</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-        <artifactId>grpc-contract</artifactId>
-        <packaging>jar</packaging>
+    <artifactId>grpc-contract</artifactId>
+    <packaging>jar</packaging>
 
-        <properties>
-            <java.version>17</java.version>
-            <maven.compiler.source>17</maven.compiler.source>
-            <maven.compiler.target>17</maven.compiler.target>
-            <grpc.version>1.63.0</grpc.version>
-            <protobuf.version>4.33.0</protobuf.version>
-        </properties>
+    <name>grpc-contract</name>
+    <description>Share grpc classes</description>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <grpc.version>1.63.0</grpc.version>
+        <protobuf.version>4.33.0</protobuf.version>
+    </properties>
 
         <dependencies>
             <!-- gRPC -->

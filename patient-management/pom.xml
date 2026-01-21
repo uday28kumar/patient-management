@@ -18,7 +18,7 @@
     <modules>
         <module>patient-service</module>
         <module>billing-service</module>
-        <module>grpc-contract</module>
+        <module>contracts</module>
     </modules>
 
 </project>

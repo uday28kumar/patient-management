@@ -1,4 +1,4 @@
-package org.neev.patientservice.grpc;
+package org.neev.patientservice.service;
 
 import io.grpc.ManagedChannel;
 import org.neev.billing.grpc.BillingRequest;
@@ -7,10 +7,10 @@ import org.neev.billing.grpc.BillingServiceGrpc;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BillingServiceGrpcClient {
+public class BillingGrpcClient {
     private final BillingServiceGrpc.BillingServiceBlockingStub stub;
 
-    public BillingServiceGrpcClient(ManagedChannel channel){
+    public BillingGrpcClient(ManagedChannel channel){
         this.stub = BillingServiceGrpc.newBlockingStub(channel);
     }
 

@@ -1,12 +1,11 @@
 package org.neev.patientservice.service;
 
 import org.neev.billing.grpc.BillingResponse;
-import org.neev.patientservice.dto.PatientRequestDTO;
-import org.neev.patientservice.dto.PatientResponseDTO;
+import org.neev.patientservice.model.PatientRequestDTO;
+import org.neev.patientservice.model.PatientResponseDTO;
 import org.neev.patientservice.exception.EmailAlreadyExistsException;
 import org.neev.patientservice.exception.InvalidDOBException;
 import org.neev.patientservice.exception.PatientNotFoundException;
-import org.neev.patientservice.grpc.BillingServiceGrpcClient;
 import org.neev.patientservice.mapper.PatientMapper;
 import org.neev.patientservice.model.Patient;
 import org.neev.patientservice.repository.PatientRepository;
@@ -24,11 +23,11 @@ import java.util.UUID;
 public class PatientService {
     private static final Logger log = LoggerFactory.getLogger(PatientService.class);
     private final PatientRepository patientRepository;
-    private final BillingServiceGrpcClient billingServiceGrpcClient;
+    private final BillingGrpcClient billingGrpcClient;
 
-    public PatientService(PatientRepository patientRepository, BillingServiceGrpcClient billingServiceGrpcClient) {
+    public PatientService(PatientRepository patientRepository, BillingGrpcClient billingGrpcClient) {
         this.patientRepository = patientRepository;
-        this.billingServiceGrpcClient = billingServiceGrpcClient;
+        this.billingGrpcClient = billingGrpcClient;
     }
 
     public List<PatientResponseDTO> getPatients() {
@@ -43,7 +42,7 @@ public class PatientService {
         Patient patient = PatientMapper.toModel(patientRequestDTO);
         patient.setRegistrationTime(LocalDateTime.now());
         Patient savedPatient = patientRepository.save(patient);
-        BillingResponse billingResponse = billingServiceGrpcClient.createBilling("fake id", "fake name");
+        BillingResponse billingResponse = billingGrpcClient.createBilling("fake id", "fake name");
         log.info("Billing Response = {}", billingResponse);
         return PatientMapper.toDTO(savedPatient);
     }
