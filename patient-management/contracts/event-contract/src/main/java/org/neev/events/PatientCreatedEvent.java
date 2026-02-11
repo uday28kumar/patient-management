@@ -1,4 +1,9 @@
 package org.neev.events;
 
-public class PatientCreatedEvent {
+import java.io.Serializable;
+
+public record PatientCreatedEvent(
+        String patientId,
+        String name
+) implements Serializable {
 }

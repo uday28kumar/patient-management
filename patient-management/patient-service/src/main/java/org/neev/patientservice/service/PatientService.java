@@ -24,10 +24,12 @@ public class PatientService {
     private static final Logger log = LoggerFactory.getLogger(PatientService.class);
     private final PatientRepository patientRepository;
     private final BillingGrpcClient billingGrpcClient;
+    private final PatientEventPublisher patientEventPublisher;
 
-    public PatientService(PatientRepository patientRepository, BillingGrpcClient billingGrpcClient) {
+    public PatientService(PatientRepository patientRepository, BillingGrpcClient billingGrpcClient, PatientEventPublisher patientEventPublisher) {
         this.patientRepository = patientRepository;
         this.billingGrpcClient = billingGrpcClient;
+        this.patientEventPublisher = patientEventPublisher;
     }
 
     public List<PatientResponseDTO> getPatients() {
@@ -42,6 +44,7 @@ public class PatientService {
         Patient patient = PatientMapper.toModel(patientRequestDTO);
         patient.setRegistrationTime(LocalDateTime.now());
         Patient savedPatient = patientRepository.save(patient);
+        patientEventPublisher.publishPatientCreated(savedPatient);
         BillingResponse billingResponse = billingGrpcClient.createBilling("fake id", "fake name");
         log.info("Billing Response = {}", billingResponse);
         return PatientMapper.toDTO(savedPatient);
