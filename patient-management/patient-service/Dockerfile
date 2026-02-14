@@ -9,11 +9,13 @@ COPY pom.xml .
 # Copy service poms
 COPY billing-service/pom.xml billing-service/pom.xml
 COPY patient-service/pom.xml patient-service/pom.xml
+COPY analytics-service/pom.xml analytics-service/pom.xml
 
 # Copy contracts aggregator + contracts poms
 COPY contracts/pom.xml contracts/pom.xml
 COPY contracts/grpc-contract/pom.xml contracts/grpc-contract/pom.xml
 COPY contracts/event-contract/pom.xml contracts/event-contract/pom.xml
+COPY contracts/util-contract/pom.xml contracts/util-contract/pom.xml
 
 # 3️⃣ Download dependencies (reactor is now valid)
 RUN mvn -B -pl patient-service -am dependency:go-offline
@@ -21,6 +23,7 @@ RUN mvn -B -pl patient-service -am dependency:go-offline
 # 4️⃣ Copy actual source code
 COPY patient-service patient-service
 COPY billing-service billing-service
+COPY analytics-service analytics-service
 COPY contracts contracts
 
 # 5️⃣ Build only patient-service

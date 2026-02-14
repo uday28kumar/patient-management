@@ -24,6 +24,18 @@ services:
       kafka:
         condition: service_healthy
 
+  analytics-service:
+    build:
+      context: .
+      dockerfile: analytics-service/Dockerfile
+    container_name: analytics-service
+    ports:
+      - "4002:4002"
+    restart: always
+    depends_on:
+      kafka:
+        condition: service_healthy
+
   patient-service:
     build:
       context: .

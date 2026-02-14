@@ -34,6 +34,11 @@
             <artifactId>event-contract</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.neev</groupId>
+            <artifactId>util-contract</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- gRPC Spring Boot Starter -->
         <dependency>

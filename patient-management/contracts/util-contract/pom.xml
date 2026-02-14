@@ -7,15 +7,19 @@
         <groupId>org.neev</groupId>
         <artifactId>patient-management</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <artifactId>contracts</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>util-contract</artifactId>
+    <packaging>jar</packaging>
 
-    <modules>
-        <module>event-contract</module>
-        <module>grpc-contract</module>
-        <module>util-contract</module>
-    </modules>
+    <name>util-contract</name>
+    <description>Provides utils classes</description>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 </project>

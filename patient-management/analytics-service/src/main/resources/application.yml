@@ -1,20 +1,25 @@
 spring:
   application:
-    name: billing-service
+    name: analytics-service
+
+  kafka:
+    bootstrap-servers: kafka:9092
+
+    consumer:
+      group-id: analytics-service-group
+      auto-offset-reset: earliest
+
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+
+      # Optional but recommended
+      enable-auto-commit: false
 
   profiles:
     active: default
 
 server:
-  port: 0   # REST not exposed; gRPC only
-
-# ===============================
-# gRPC SERVER CONFIG
-# ===============================
-grpc:
-  server:
-    port: ${GRPC_SERVER_PORT:9090}
-    enable-reflection: true
+  port: 0
 
 # ===============================
 # LOGGING

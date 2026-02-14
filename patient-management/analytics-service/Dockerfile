@@ -7,9 +7,9 @@ WORKDIR /build
 COPY pom.xml .
 
 # Copy service poms
+COPY analytics-service/pom.xml analytics-service/pom.xml
 COPY billing-service/pom.xml billing-service/pom.xml
 COPY patient-service/pom.xml patient-service/pom.xml
-COPY analytics-service/pom.xml analytics-service/pom.xml
 
 # Copy contracts aggregator + contracts poms
 COPY contracts/pom.xml contracts/pom.xml
@@ -17,22 +17,22 @@ COPY contracts/grpc-contract/pom.xml contracts/grpc-contract/pom.xml
 COPY contracts/event-contract/pom.xml contracts/event-contract/pom.xml
 COPY contracts/util-contract/pom.xml contracts/util-contract/pom.xml
 
-RUN mvn -B -pl billing-service -am dependency:go-offline
+RUN mvn -B -pl analytics-service -am dependency:go-offline
 
+COPY analytics-service analytics-service
 COPY billing-service billing-service
 COPY patient-service patient-service
-COPY analytics-service analytics-service
 COPY contracts contracts
 
-RUN mvn -B -pl billing-service -am clean package -DskipTests
+RUN mvn -B -pl analytics-service -am clean package -DskipTests
 
 # -------- Runtime stage --------
 FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
-COPY --from=build /build/billing-service/target/*.jar app.jar
+COPY --from=build /build/analytics-service/target/*.jar app.jar
 
-EXPOSE 9090
+EXPOSE 4002
 
 ENTRYPOINT ["java","-jar","app.jar"]
