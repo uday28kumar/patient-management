@@ -30,7 +30,7 @@ services:
       dockerfile: analytics-service/Dockerfile
     container_name: analytics-service
     ports:
-      - "4002:4002"
+      - "8082:8082"
     restart: always
     depends_on:
       kafka:
@@ -42,7 +42,7 @@ services:
       dockerfile: patient-service/Dockerfile
     container_name: patient-service
     ports:
-      - "8080:8080"
+      - "8081:8081"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/patientdb
       SPRING_DATASOURCE_USERNAME: patientuser
@@ -56,6 +56,19 @@ services:
         condition: service_healthy
       billing-service:
         condition: service_started
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: api-gateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - patient-service
+      - billing-service
+      - analytics-service
 
   kafka:
     image: confluentinc/cp-kafka:7.6.0
@@ -94,11 +107,11 @@ services:
       retries: 10
       start_period: 40s
 
- # To use kafka ui (Optional) - http://localhost:8085
+ # To use kafka ui (Optional) - http://localhost:4001
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     ports:
-      - "8085:8080"
+      - "4001:4001"
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092

@@ -10,6 +10,7 @@ COPY pom.xml .
 COPY billing-service/pom.xml billing-service/pom.xml
 COPY patient-service/pom.xml patient-service/pom.xml
 COPY analytics-service/pom.xml analytics-service/pom.xml
+COPY api-gateway/pom.xml api-gateway/pom.xml
 
 # Copy contracts aggregator + contracts poms
 COPY contracts/pom.xml contracts/pom.xml
@@ -24,6 +25,7 @@ RUN mvn -B -pl patient-service -am dependency:go-offline
 COPY patient-service patient-service
 COPY billing-service billing-service
 COPY analytics-service analytics-service
+COPY api-gateway api-gateway
 COPY contracts contracts
 
 # 5️⃣ Build only patient-service

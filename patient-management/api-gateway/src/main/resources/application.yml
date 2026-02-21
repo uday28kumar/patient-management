@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: patient-service
+          uri: http://patient-service:8081
+          predicates:
+            - Path=/patients/**
+
+        - id: billing-service
+          uri: http://billing-service:9090
+          predicates:
+            - Path=/billing/**
+
+        - id: analytics-service
+          uri: http://analytics-service:8082
+          predicates:
+            - Path=/analytics/**
