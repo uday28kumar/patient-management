@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.kafka.annotation.EnableKafka;
 
 /**
- * AnalyticsServiceApp
- *
+ * Main application class for the Analytics Service. This service listens to patient-related events from Kafka
+ * and processes them for analytics purposes.
  */
 @SpringBootApplication
 @EnableKafka
