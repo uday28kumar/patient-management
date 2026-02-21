@@ -8,6 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+/**
+ * Service responsible for publishing patient-related events to Kafka. This class uses a KafkaTemplate to send
+ * messages to the "patient-events" topic whenever a new patient is created. The events are serialized as JSON
+ * before being sent to Kafka.
+ */
 @Service
 public class PatientEventPublisher {
     private static final Logger log = LoggerFactory.getLogger(PatientEventPublisher.class);
@@ -19,6 +24,12 @@ public class PatientEventPublisher {
         this.kafkaTemplate = kafkaTemplate;
     }
 
+    /**
+     * Publishes a PatientCreatedEvent to Kafka when a new patient is created. The event contains the patient's ID
+     * and name, and is serialized as JSON before being sent to the "patient-events" topic.
+     *
+     * @param patient the Patient object representing the newly created patient
+     */
     public void publishPatientCreated(Patient patient) {
         PatientCreatedEvent event = new PatientCreatedEvent(patient.getId().toString(), patient.getName());
         try {

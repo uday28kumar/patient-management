@@ -5,6 +5,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+/**
+ * Data Transfer Object (DTO) for patient requests. This class is used to encapsulate the data required to create or update a patient record.
+ * It includes fields for the patient's name, email, address, and date of birth, along with validation annotations to ensure that the data is valid
+ * before it is processed by the service layer. The DTO helps to decouple the internal representation of the patient entity from the external representation
+ * used in API requests and responses.
+ */
 public class PatientRequestDTO {
     @NotBlank(message = "Name is required")
     @Size(max = 100, message = "name can't exceed 100 characters")

@@ -1,5 +1,10 @@
 package org.neev.patientservice.model;
 
+/**
+ * Data Transfer Object (DTO) for representing patient information in responses. This class contains fields for the patient's ID, name,
+ * email, address, and date of birth (DOB). It includes getter and setter methods for each field, allowing for easy access and modification
+ * of the patient's information when sending responses to clients.
+ */
 public class PatientResponseDTO {
     private String id;
 

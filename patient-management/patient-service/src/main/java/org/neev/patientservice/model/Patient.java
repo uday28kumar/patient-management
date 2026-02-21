@@ -9,6 +9,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * Entity representing a patient in the healthcare system. This class is annotated with JPA annotations to define how it maps to a database table.
+ * It includes fields for the patient's ID, name, email, date of birth, address, and registration time. The class also includes validation annotations
+ * to ensure that required fields are not null and that the email field is unique and properly formatted.
+ */
 @Entity
 public class Patient {
     @Id
