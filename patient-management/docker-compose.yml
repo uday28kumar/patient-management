@@ -17,8 +17,10 @@ services:
       context: .
       dockerfile: billing-service/Dockerfile
     container_name: billing-service
-    ports:
-      - "9090:9090"
+#    ports:
+#      - "9090:9090"
+    expose:
+      - "9090"
     restart: always
     depends_on:
       kafka:
@@ -29,8 +31,10 @@ services:
       context: .
       dockerfile: analytics-service/Dockerfile
     container_name: analytics-service
-    ports:
-      - "8082:8082"
+#    ports:
+#      - "8082:8082"
+    expose:
+      - "8082"
     restart: always
     depends_on:
       kafka:
@@ -41,8 +45,12 @@ services:
       context: .
       dockerfile: patient-service/Dockerfile
     container_name: patient-service
-    ports:
-      - "8081:8081"
+    # ❌ REMOVE ports mapping
+#    ports:
+#      - "8081:8081"
+    # ✅ expose only to docker network
+    expose:
+      - "8081"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/patientdb
       SPRING_DATASOURCE_USERNAME: patientuser
@@ -107,11 +115,11 @@ services:
       retries: 10
       start_period: 40s
 
- # To use kafka ui (Optional) - http://localhost:4001
+ # To use kafka ui (Optional) - http://localhost:8085
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     ports:
-      - "4001:4001"
+      - "8085:8080"
     environment:
       KAFKA_CLUSTERS_0_NAME: local
       KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
