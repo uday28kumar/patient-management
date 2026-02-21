@@ -4,15 +4,22 @@ option java_multiple_files = true;
 option java_package = "org.neev.billing.grpc";
 option java_outer_classname = "BillingProto";
 
+// BillingService defines the gRPC service for billing operations.
 service BillingService {
+    // CreateBilling creates a new billing entry based on the provided request.
     rpc CreateBilling(BillingRequest) returns (BillingResponse);
 }
 
+// BillingRequest represents the request message for creating a billing entry.
 message BillingRequest {
+    // Unique identifier for the billing entry.
     string id = 1;
+    // Name associated with the billing entry.
     string name = 2;
 }
 
+// BillingResponse represents the response message after creating a billing entry.
 message BillingResponse {
+    // Status of the billing creation operation.
     string status = 1;
 }
